@@ -19,40 +19,38 @@ namespace OOP
             // if blank space or user inputs more than one name, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(firstName) || firstName.Split().Length > 1)
 	        {
-                firstName = RePromptUser("first name");
+                firstName = PromptUser("first name");
 	        }	        
 
             Console.WriteLine("Enter Lastname");
             var lastName = Console.ReadLine().Trim();
 
-            // if blank space or user inputs more than one last name, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(lastName) || lastName.Split().Length > 1)
 	        {
-                lastName = RePromptUser("last name");
+                lastName = PromptUser("last name");
 	        }
 
             Console.WriteLine("Enter email");
             var email = Console.ReadLine().Trim();
             
-            // if blank space or user inputs more than one entry, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(email) || email.Split().Length > 1)
 	        {
-                email = RePromptUser("email");
+                email = PromptUser("email");
 	        }
 
             Console.WriteLine("Enter birthday");
             var birthday = Console.ReadLine().Trim();
-
-            // if blank space, re-prompt user to input field
-            while (string.IsNullOrWhiteSpace(birthday))
+            
+            // TryParse() converts the string representation to equivalent DateTime object
+            DateTime birthdayValue;
+            while (string.IsNullOrWhiteSpace(birthday) || !(DateTime.TryParse(birthday, out birthdayValue)))
 	        {
-                birthday = RePromptUser("birthday");
+                birthday = PromptUser("birthday");
 	        }
-
+                        
             Console.WriteLine("Select your Gender: \n1. Male \n2. Female \n3. Prefer not to say");
             var gender = Console.ReadLine().Trim();
             
-            // if blank space or user input any value outside the options, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(gender) || (gender != "1" && gender != "2" && gender != "3"))
 	        {
                 Console.WriteLine("Invalid Gender Selection");
@@ -61,11 +59,24 @@ namespace OOP
 	        }
 
             var selectedGender = GenderSelection(gender);
+
             Console.WriteLine("Enter Password");
             var password = Console.ReadLine();
 
+            while (string.IsNullOrWhiteSpace(password))
+            {
+                Console.WriteLine($"Please, enter a password");
+                password = Console.ReadLine();
+            }
+
             Console.WriteLine("Confirm Password");
             var confirmPassword = Console.ReadLine();
+
+            while (string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                Console.WriteLine($"Please, confirm your password");
+                confirmPassword = Console.ReadLine();
+            }
 
             var formData = new Register { 
                 FirstName = firstName, 
@@ -81,8 +92,7 @@ namespace OOP
         }
 
         public static Gender GenderSelection(string gender)
-        {
-            
+        {            
             switch (gender)
             {
                 case "1":
@@ -96,7 +106,7 @@ namespace OOP
             }
         }
 
-        private static string RePromptUser(string fieldName)
+        private static string PromptUser(string fieldName)
         {
             Console.WriteLine($"Please, enter a valid {fieldName}");
             return Console.ReadLine().Trim();

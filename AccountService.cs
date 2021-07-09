@@ -8,36 +8,21 @@ namespace OOP
 {
     public static class AccountService
     {
-        // make use of the user class properties 
+        // makes use of the user class properties 
         private static User _user;
         public static void Register(Register model)
         {
             var password = PasswordValidator(model.Password, model.ConfirmPassword);
 
-            if (string.IsNullOrWhiteSpace(password)) 
-                Console.WriteLine("Password Does not match!!");
-            
             _user = new User(model.Birthday)
             {
                 FullName = $"{model.LastName} {model.FirstName}",
                 Gender = model.Gender,
                 Email = model.Email,
                 Password = password
-
             };
 
-            //Instantiate a class with parameterless constructor
-
-            // _user = new User
-            // {
-            //     FullName = $"{model.LastName} {model.FirstName}",
-            //     Birthday = new DateTime(1993, 12, 5),
-            //     Gender = model.Gender,
-            //     Email = model.Email,
-            //     Password = password
-            // };
-
-            Console.WriteLine($"Congratulations!, {_user.FullName} your registration was successful!");
+            Console.WriteLine($"Congratulations {_user.FullName}! Your registration was successful!");
 
             Console.WriteLine("Press 1 to login:\n");
             var input = Console.ReadLine();
@@ -46,17 +31,26 @@ namespace OOP
             {
                 Console.WriteLine("Enter your Email and password seperated with space");
                 var credentials = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(credentials))
+                if ( !string.IsNullOrWhiteSpace(credentials) && credentials.Split().Length > 1 && credentials.Split().Length < 3 )
                 {
                     var email = credentials.Split()[0].Trim().ToLower();
                     var passWord = credentials.Split()[1];
                     Login(email, passWord);
-                } else
-                {
-                    Console.WriteLine("The field is required!");
                 }
-                
-            } else
+                else
+                {
+                    while (string.IsNullOrWhiteSpace(credentials) || !(credentials.Split().Length > 1 && credentials.Split().Length < 3))
+                    {
+                        Console.WriteLine("The field is required!");
+                        Console.WriteLine("Enter your Email and password seperated with space");
+                        credentials = Console.ReadLine();
+                    }
+                    var email = credentials.Split()[0].Trim().ToLower();
+                    var passWord = credentials.Split()[1];
+                    Login(email, passWord);
+                }
+            } 
+            else
             {
                 Console.WriteLine("Invalid Input");
             }
@@ -77,13 +71,17 @@ namespace OOP
             }
         }
 
-        private static string PasswordValidator( string password, string confirmPassword)
+        private static string PasswordValidator( string password, string confirmPassword )
         {
-            if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(confirmPassword))
-                return string.Empty;
-
-            return password.Trim() == confirmPassword.Trim() ? password : string.Empty;
-           
+            while (password != confirmPassword)
+            {
+                Console.WriteLine("Password does not match!!");
+                Console.WriteLine("Please, enter a password");
+                password = Console.ReadLine();
+                Console.WriteLine("Please, confirm your password");
+                confirmPassword = Console.ReadLine();
+            }
+            return password;
         }
     }
 }

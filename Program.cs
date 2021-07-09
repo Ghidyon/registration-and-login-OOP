@@ -13,6 +13,7 @@ namespace OOP
         static void Main(string[] args)
         {
             Application.Run();
+            Console.ReadKey();
         }
     }
     
