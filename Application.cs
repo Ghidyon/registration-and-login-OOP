@@ -32,7 +32,7 @@ namespace OOP
 	        }
 
             Console.WriteLine("Enter email");
-            var email = Console.ReadLine();
+            var email = Console.ReadLine().Trim();
             
             // if blank space or user inputs more than one entry, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(email) || email.Split().Length > 1)
@@ -41,17 +41,23 @@ namespace OOP
 	        }
 
             Console.WriteLine("Enter birthday");
-            var birthday = Console.ReadLine();
+            var birthday = Console.ReadLine().Trim();
+
+            // if blank space, re-prompt user to input field
+            while (string.IsNullOrWhiteSpace(birthday))
+	        {
+                birthday = RePromptUser("birthday");
+	        }
 
             Console.WriteLine("Select your Gender: \n1. Male \n2. Female \n3. Prefer not to say");
-            var gender = Console.ReadLine();
+            var gender = Console.ReadLine().Trim();
             
             // if blank space or user input any value outside the options, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(gender) || (gender != "1" && gender != "2" && gender != "3"))
 	        {
                 Console.WriteLine("Invalid Gender Selection");
                 Console.WriteLine("Select your Gender using the number key: \n1. Male \n2. Female \n3. Prefer not to say");
-                gender = Console.ReadLine();
+                gender = Console.ReadLine().Trim();
 	        }
 
             var selectedGender = GenderSelection(gender);
@@ -68,7 +74,8 @@ namespace OOP
                 Birthday = DateTime.Parse(birthday),
                 Password = password,
                 ConfirmPassword = confirmPassword,
-                Gender = selectedGender };
+                Gender = selectedGender
+            };
 
             AccountService.Register(formData);
         }
