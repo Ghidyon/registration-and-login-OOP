@@ -8,6 +8,7 @@ namespace OOP
 {
     public static class AccountService
     {
+        // make use of the user class properties 
         private static User _user;
         public static void Register(Register model)
         {

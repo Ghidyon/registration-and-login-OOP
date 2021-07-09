@@ -14,23 +14,45 @@ namespace OOP
             menu.Append("Hello, welcome to my App:\n");
             menu.AppendLine("Enter your FirstName");
             Console.WriteLine(menu.ToString());
-            var firstName = Console.ReadLine();
+            var firstName = Console.ReadLine().Trim();
+            
+            // if blank space or user inputs more than one name, re-prompt user to input field
+            while (string.IsNullOrWhiteSpace(firstName) || firstName.Split().Length > 1)
+	        {
+                firstName = RePromptUser("first name");
+	        }	        
 
             Console.WriteLine("Enter Lastname");
-            var lastName = Console.ReadLine();
+            var lastName = Console.ReadLine().Trim();
+
+            // if blank space or user inputs more than one last name, re-prompt user to input field
+            while (string.IsNullOrWhiteSpace(lastName) || lastName.Split().Length > 1)
+	        {
+                lastName = RePromptUser("last name");
+	        }
 
             Console.WriteLine("Enter email");
             var email = Console.ReadLine();
+            
+            // if blank space or user inputs more than one entry, re-prompt user to input field
+            while (string.IsNullOrWhiteSpace(email) || email.Split().Length > 1)
+	        {
+                email = RePromptUser("email");
+	        }
 
             Console.WriteLine("Enter birthday");
             var birthday = Console.ReadLine();
 
-            Console.WriteLine("Select your Gender: \n 1. male \n 2. Female \n 3. Prefer not to say");
+            Console.WriteLine("Select your Gender: \n1. Male \n2. Female \n3. Prefer not to say");
             var gender = Console.ReadLine();
-            if(gender != "1" && gender != "2" && gender != "3")
-            {
+            
+            // if blank space or user input any value outside the options, re-prompt user to input field
+            while (string.IsNullOrWhiteSpace(gender) || (gender != "1" && gender != "2" && gender != "3"))
+	        {
                 Console.WriteLine("Invalid Gender Selection");
-            }
+                Console.WriteLine("Select your Gender using the number key: \n1. Male \n2. Female \n3. Prefer not to say");
+                gender = Console.ReadLine();
+	        }
 
             var selectedGender = GenderSelection(gender);
             Console.WriteLine("Enter Password");
@@ -65,6 +87,12 @@ namespace OOP
                 default:
                     return Gender.SelectGender;
             }
+        }
+
+        private static string RePromptUser(string fieldName)
+        {
+            Console.WriteLine($"Please, enter a valid {fieldName}");
+            return Console.ReadLine().Trim();
         }
     }
 }
