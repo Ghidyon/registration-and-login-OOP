@@ -29,17 +29,68 @@ namespace OOP
             {
                 isLoggedIn = PromptLogin();
             }
+
+            Console.WriteLine("\nDo you want to show/hide your age?\n1. Show/Hide Age \n2. End");
+            var response = Console.ReadLine();
+
+            if (response == "1")
+            {
+                response = ToggleAgePrivacyHandler();
+            }
+            while (response != "1" && response != "2")
+            {
+                response = PromptAgePrivacy();
+
+                if (response == "1")
+                {
+                    response = ToggleAgePrivacyHandler();
+                }
+            }
+            if (response == "2")
+            {
+                Console.WriteLine("You've reached the end of the console app.");
+            }
+
+
+        }
+
+        public static string ToggleAgePrivacyHandler()
+        {
+            _user.ToggleAgePrivacy();
+            if (_user.Age == null)
+            {
+                Console.WriteLine($"Welcome, {_user.FullName}" +
+                    $"\nYou Joined on {_user.Created}" +
+                    $"\nYou're {_user.Gender}" +
+                    $"\nYou've successfully toggled off Age Display");
+                return "0";
+            }
+            else
+            {
+                Console.WriteLine($"Welcome, {_user.FullName}" +
+                   $"\nYou Joined on {_user.Created}" +
+                   $"\nYou're {_user.Gender}" +
+                   $"\nYour Age is {_user.Age}" +
+                   $"\nYou've successfully toggled on Age Display");
+                return "0";
+            }
+        }
+
+        public static string PromptAgePrivacy()
+        {
+            Console.WriteLine("\nDo you want to show/hide your age?\n1. Show/Hide Age \n2. End");
+            return Console.ReadLine().Trim();
         }
 
         public static bool PromptLogin()
         {
-            Console.WriteLine("Press 1 to login:\n");
+            Console.WriteLine("Press 1 to login:");
             var input = Console.ReadLine().Trim();
 
             while (input != "1")
             {
                 Console.WriteLine("Invalid Input");
-                Console.WriteLine("Press 1 to login:\n");
+                Console.WriteLine("Press 1 to login:");
                 input = Console.ReadLine().Trim();
             }
 
@@ -49,30 +100,29 @@ namespace OOP
             {
                 var email = credentials.Split()[0].Trim().ToLower();
                 var passWord = credentials.Split()[1];
-                return ValidateLogin(email, passWord);
+                return IsLoginValidated(email, passWord);
             }
             else
             {
                 while (string.IsNullOrWhiteSpace(credentials) || !(credentials.Split().Length > 1 && credentials.Split().Length < 3))
                 {
-                    Console.WriteLine("The field is required!");
                     Console.WriteLine("Please enter your Email and Password seperated by a space");
                     credentials = Console.ReadLine();
                 }
                 var email = credentials.Split()[0].Trim().ToLower();
                 var passWord = credentials.Split()[1];
-                return ValidateLogin(email, passWord);
+                return IsLoginValidated(email, passWord);
             }
         }
 
-        public static bool ValidateLogin(string email, string password)
+        public static bool IsLoginValidated(string email, string password)
         {
             if(_user.Email.ToLower() == email.ToLower() && _user.Password == password)
             {
-                _user.ToggleAgePrivacy();
-                _user.ToggleAgePrivacy();
-
-                Console.WriteLine($"Welcome, {_user.FullName} Your Age is {_user.Age} Joined: {_user.Created}");
+                Console.WriteLine($"Welcome, {_user.FullName}" +
+                      $"\nYou Joined on {_user.Created}" +
+                      $"\nYour Age is {_user.Age}" +
+                      $"\nYou've successfully toggled on Age Display");
                 return true;
             }
             else

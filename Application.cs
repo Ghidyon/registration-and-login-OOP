@@ -16,7 +16,6 @@ namespace OOP
             Console.WriteLine(menu.ToString());
             var firstName = Console.ReadLine().Trim();
             
-            // if blank space or user inputs more than one name, re-prompt user to input field
             while (string.IsNullOrWhiteSpace(firstName) || firstName.Split().Length > 1)
 	        {
                 firstName = PromptUser("first name");
