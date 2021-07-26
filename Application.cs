@@ -32,7 +32,7 @@ namespace OOP
             Console.WriteLine("Enter email");
             var email = Console.ReadLine().Trim();
             
-            while (string.IsNullOrWhiteSpace(email) || email.Split().Length > 1)
+            while (!AccountService.EmailRegex.IsMatch(email))
 	        {
                 email = PromptUser("email");
 	        }

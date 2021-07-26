@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace OOP
 {
@@ -10,6 +12,8 @@ namespace OOP
     {
         // makes use of the user class properties 
         private static User _user;
+        public static readonly Regex EmailRegex = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+
         public static void Register(Register model)
         {
             var password = PasswordValidator(model.Password, model.ConfirmPassword);
@@ -50,7 +54,6 @@ namespace OOP
             {
                 Console.WriteLine("You've reached the end of the console app.");
             }
-
 
         }
 
